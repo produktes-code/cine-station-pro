@@ -152,7 +152,7 @@ El selector de idioma se encuentra en la cabecera del programa. Al cambiar el id
 
 ## 📋 Manual de Uso
 
-📥 **[Descargar Manual Extensivo y Tutorial en PDF](./Manual_CineStation_Pro.pdf)**
+📥 **[Descargar Manual Extensivo y Tutorial en PDF](./manual.pdf)**
 
 1. **Ajuste del Motor (Engine Config):** Haz clic en el botón superior derecho para ingresar tu API Key de tu proveedor preferido (Gemini, Claude, GPT-4o) y tu clave de Replicate si deseas renders en la nube.
 2. **Describe tu Toma:** Escribe una idea conceptual en la caja superior del panel izquierdo.
