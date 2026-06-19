@@ -1,72 +1,79 @@
-# CineStation Pro V3.0 - The Virtual Studio Engine
+<p align="center">
+  <img src="build/icon.png" width="128" height="128" style="border-radius: 28px; box-shadow: 0 8px 24px rgba(0,0,0,0.25);" alt="CineStation Pro Logo" />
+</p>
 
-![Status](https://img.shields.io/badge/Status-Production_Ready-success) ![License](https://img.shields.io/badge/License-Proprietary-red) ![Version](https://img.shields.io/badge/Version-3.0.0-blue)
+<h1 align="center">CineStation Pro V1.0.0</h1>
 
-**CineStation Pro** is a virtual cinema workstation and multi-modal generative video console designed for Directors of Photography, VFX artists, and digital creators. It acts as an advanced technical bridge that translates abstract concepts into highly structured camera coordinate payloads (X, Y, Z, and Rot-Z motion vectors) for generative engines (such as Wan 2.2, Hunyuan, Sora, and Luma).
+<p align="center">
+  <b>The Absolute Virtual Studio and Multi-Modal Generative Video Workspace</b>
+</p>
 
-**Developed in collaboration by Antigravity AI and Jesús Ferrer (CHUS BZN).**
+<p align="center">
+  <img src="https://img.shields.io/badge/Version-v1.0.0-blue?style=for-the-badge" alt="Version 1.0.0" />
+  <img src="https://img.shields.io/badge/Languages-7%20Supported-purple?style=for-the-badge" alt="7 Languages" />
+  <img src="https://img.shields.io/badge/Platform-macOS%20%7C%20Windows-green?style=for-the-badge" alt="macOS & Windows" />
+  <img src="https://img.shields.io/badge/Status-Production_Ready-success?style=for-the-badge" alt="Status" />
+</p>
 
 ---
 
-## 🎯 Core Purpose
-CineStation Pro solves the complexity of video camera movement and style consistency in generative video. By providing a DAW-style (Digital Audio Workstation) interface, creators can script detailed camera panning, tilting, zooming, and rolling alongside lens and film stock parameters, ensuring pixel-perfect command compilations before pushing prompts to generative nodes.
+## 🎯 Overview
+
+**CineStation Pro** is an absolute virtual cinema workstation and multi-modal generative video console designed for Directors of Photography, VFX artists, and digital creators. It acts as an advanced technical bridge that translates creative scene briefs into highly structured camera coordinate payloads (`Pan`, `Tilt`, `Zoom`, and `Roll` motion vectors) for generative engines (such as Sora, Luma, Hunyuan, and Wan 2.2).
+
+> [!NOTE]
+> Engineered in close collaboration between **Antigravity AI** and **Jesús Ferrer (CHUS BZN)** to establish professional standards for AI cinematography.
 
 ---
 
 ## 🏗️ Technical Architecture
-CineStation Pro is designed using modern cross-platform technologies:
 
-*   **Frontend (UI):** Built in **React 19**, bundled using **Vite 8**, and styled using **Tailwind CSS v3** with custom Stitch design tokens for a premium glassmorphic UI.
-*   **Shell (Desktop):** Structured in **Electron** to run as a native desktop client on macOS and Windows.
-*   **API IPC Bridge:** Connects seamlessly to external LLMs (Google Gemini 1.5, Claude 3.5, GPT-4o) and cloud rendering architectures (Replicate nodes for Tencent Hunyuan and Wan 2.2 video generation).
+*   **Frontend Interface:** Built with **React 19** and bundled using **Vite 8** to run a responsive, parametric, dark-theme *Glassmorphism* UI.
+*   **Desktop Shell:** Structured in **Electron** to execute as a native desktop application on macOS and Windows.
+*   **API Integration:** Pre-configured IPC bridge connects seamlessly with Replicate cloud rendering nodes.
 
 ---
 
-## ⚙️ Key Features & Modules
+## ⚙️ Core Modules & Features
 
-### 1. Multi-Engine Workflows
+### 📐 Physical Camera Vector HUD
+Precisely model 3D camera crane and stabilizer paths before rendering:
+*   **Pan (X-axis):** Left-to-right camera motion (-180° to +180°).
+*   **Tilt (Y-axis):** Inclinational vertical camera tilt (-90° to +90°).
+*   **Zoom (Z-axis):** Focal zoom in or out.
+*   **Roll (Rot-Z):** In-axis lens rotation for Dutch angles or spin transitions.
+
+### 🎥 Multi-Engine Workflows
 Switch seamlessly between 4 generative video modes:
-*   **Text-to-Video (T2V):** Compiles detailed technical prompts.
-*   **Image-to-Video (I2V):** Upload reference keyframes to animate scenes.
-*   **Video-to-Video (V2V):** Apply style transfers (such as Anime, 3D Render, Claymation) to raw footage.
-*   **Face Swap / Identity:** Perform identity swaps and lip-syncing for marketing avatars.
+*   **T2V (Text-to-Video):** Generate video from descriptive text prompts.
+*   **I2V (Image-to-Video):** Upload reference keyframes to animate scenes.
+*   **V2V (Video-to-Video):** Apply style transfers (such as Anime, 3D Render, Claymation) to raw footage.
+*   **FACE (Face Swap / Identity):** Perform identity swaps and lip-syncing for avatars.
 
-### 2. Live Terminal Console
-*   **Real-Time Tokenization:** Counts tokens of prompts dynamically.
+### 📟 Live Terminal Console
+*   **Real-Time Tokenization:** Counts tokens of prompts dynamically to ensure model limit compliance.
 *   **CLI Payload Compiler:** Packages the visual brief, camera vectors, and sensor specifications into a ready-to-run terminal command and JSON payload.
 
-### 3. Physical Camera Vector HUD
-*   Sliders to adjust physical motion coordinates: `Pan (X-axis)`, `Tilt (Y-axis)`, `Zoom (Z-axis)`, and `Roll (Rot-Z)`.
-*   Toggle static camera locks to bypass vector generation for still frames.
+---
+
+## 🚀 Desktop Installation
+
+### 🍎 macOS
+1. Download `CineStation Pro-1.0.0.dmg` from the **Releases** tab.
+2. Open the `.dmg` and drag the application to your `Applications` folder.
+
+### 🔌 Windows
+1. Download `CineStation Pro Setup 1.0.0.exe` from the **Releases** tab.
+2. Run the installer and follow the setup wizard.
 
 ---
 
-## 🚀 Installation & Usage (Desktop Mode)
+## 📖 Technical User Manual
 
-### macOS Setup
-1. Locate the installation package: `CineStation Pro-1.0.0.dmg`.
-2. Mount the DMG image and drag **CineStation Pro** to your **Applications** folder.
-3. If running from source/development:
-   ```bash
-   npm install
-   npm run electron:dev
-   ```
+📄 **[Download the Multilingual Technical Manual (PDF)](./manual.pdf)**
 
-### Production Build
-To build native desktop installers for Windows and macOS:
-```bash
-npm run pack:all
-```
-This outputs a `.dmg` and `.exe` package under the `dist-electron` folder.
+A comprehensive user guide is included directly in this repository as [manual.pdf](./manual.pdf). It contains step-by-step instructions, parameters descriptions, troubleshooting guides, and API integration walk-throughs translated into **7 languages** (Spanish, English, German, Russian, Japanese, Ukrainian, and Chinese).
 
 ---
 
-## 📋 Technical User Manual
-
-📥 **[Download Comprehensive PDF Manual](./manual.pdf)**
-
-For a complete step-by-step tutorial on parameter usage, API keys setup, and installer verification in the 7 supported languages (Spanish, English, German, Russian, Japanese, Ukrainian, and Chinese), refer to the pre-compiled PDF manual located in the root of the folder.
-
----
-
-*© CineStation Pro 3.0 — Jesús Ferrer (CHUS BZN) & Antigravity AI. All rights reserved.*
+*© 2026 CineStation Pro — Jesús Ferrer (CHUS BZN) — Proprietary License. All rights reserved.*
