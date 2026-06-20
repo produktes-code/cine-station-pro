@@ -5,58 +5,64 @@
 <h1 align="center">CineStation Pro V1.0.0</h1>
 
 <p align="center">
-  <b>The Absolute Virtual Studio and Multi-Modal Generative Video Workspace</b>
+  <b>The Absolute Virtual Studio and Multi-Modal Generative Video Workspace</b><br/>
+  <i>El Estudio Virtual Absoluto y Espacio de Trabajo de Vídeo Generativo Multimodal</i>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Version-v1.0.0-blue?style=for-the-badge" alt="Version 1.0.0" />
-  <img src="https://img.shields.io/badge/Languages-7%20Supported-purple?style=for-the-badge" alt="7 Languages" />
-  <img src="https://img.shields.io/badge/Platform-macOS%20%7C%20Windows-green?style=for-the-badge" alt="macOS & Windows" />
   <img src="https://img.shields.io/badge/Status-Production_Ready-success?style=for-the-badge" alt="Status" />
+</p>
+
+<p align="center">
+  <b>🌐 Multilingual & Multimodal Support / Soporte Multiidioma:</b><br/>
+  🇪🇸 Spanish | 🇬🇧 English | 🇩🇪 German | 🇷🇺 Russian | 🇯🇵 Japanese | 🇺🇦 Ukrainian | 🇨🇳 Chinese
 </p>
 
 ---
 
-## 🎯 Overview
+## 🎯 Overview / Resumen
 
+### English
 **CineStation Pro** is an absolute virtual cinema workstation and multi-modal generative video console designed for Directors of Photography, VFX artists, and digital creators. It acts as an advanced technical bridge that translates creative scene briefs into highly structured camera coordinate payloads (`Pan`, `Tilt`, `Zoom`, and `Roll` motion vectors) for generative engines (such as Sora, Luma, Hunyuan, and Wan 2.2).
+
+### Español
+**CineStation Pro** es una estación de trabajo de cine virtual y consola de vídeo generativo multimodal diseñada para directores de fotografía, artistas de VFX y creadores digitales. Traduce briefs creativos de escenas en coordenadas y vectores de movimiento físicos estructurados en 3D (`Pan`, `Tilt`, `Zoom` y `Roll`) para motores generativos de vídeo (como Sora, Luma, Hunyuan y Wan 2.2).
 
 > [!NOTE]
 > Engineered in close collaboration between **Antigravity AI** and **Jesús Ferrer (CHUS BZN)** to establish professional standards for AI cinematography.
 
 ---
 
-## 🏗️ Technical Architecture
+## 🏗️ Technical Architecture / Arquitectura Técnica
 
 *   **Frontend Interface:** Built with **React 19** and bundled using **Vite 8** to run a responsive, parametric, dark-theme *Glassmorphism* UI.
 *   **Desktop Shell:** Structured in **Electron** to execute as a native desktop application on macOS and Windows.
-*   **API Integration:** Pre-configured IPC bridge connects seamlessly with Replicate cloud rendering nodes.
+*   **Multilingual Engine:** Fully localized configuration across 7 languages using localized state dictionaries.
 
 ---
 
-## ⚙️ Core Modules & Features
+## ⚙️ Core Modules & Features / Módulos y Características
 
 ### 📐 Physical Camera Vector HUD
-Precisely model 3D camera crane and stabilizer paths before rendering:
 *   **Pan (X-axis):** Left-to-right camera motion (-180° to +180°).
 *   **Tilt (Y-axis):** Inclinational vertical camera tilt (-90° to +90°).
 *   **Zoom (Z-axis):** Focal zoom in or out.
 *   **Roll (Rot-Z):** In-axis lens rotation for Dutch angles or spin transitions.
 
 ### 🎥 Multi-Engine Workflows
-Switch seamlessly between 4 generative video modes:
 *   **T2V (Text-to-Video):** Generate video from descriptive text prompts.
 *   **I2V (Image-to-Video):** Upload reference keyframes to animate scenes.
-*   **V2V (Video-to-Video):** Apply style transfers (such as Anime, 3D Render, Claymation) to raw footage.
+*   **V2V (Video-to-Video):** Apply style transfers (Anime, 3D Render, Claymation) to raw footage.
 *   **FACE (Face Swap / Identity):** Perform identity swaps and lip-syncing for avatars.
 
 ### 📟 Live Terminal Console
 *   **Real-Time Tokenization:** Counts tokens of prompts dynamically to ensure model limit compliance.
-*   **CLI Payload Compiler:** Packages the visual brief, camera vectors, and sensor specifications into a ready-to-run terminal command and JSON payload.
+*   **CLI Payload Compiler:** Packages the visual brief, camera vectors, and sensor specifications into a ready-to-run terminal command.
 
 ---
 
-## 🚀 Desktop Installation
+## 🚀 Desktop Installation / Instalación en Escritorio
 
 ### 🍎 macOS
 1. Download `CineStation Pro-1.0.0.dmg` from the **Releases** tab.
@@ -68,7 +74,7 @@ Switch seamlessly between 4 generative video modes:
 
 ---
 
-## 📖 Technical User Manual
+## 📖 Technical User Manual / Manual Técnico
 
 📄 **[Download the Multilingual Technical Manual (PDF)](./manual.pdf)**
 
@@ -77,3 +83,4 @@ A comprehensive user guide is included directly in this repository as [manual.pd
 ---
 
 *© 2026 CineStation Pro — Jesús Ferrer (CHUS BZN) — Proprietary License. All rights reserved.*
+
