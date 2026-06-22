@@ -29,3 +29,42 @@ dist-electron
 *.zip
 Cloud-Gen-AI-Studio.html
 extract.py
+
+# Security and Environment Keys
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+
+# Python Virtual Environments and Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+venv/
+.venv/
+env/
+*.egg-info/
+
+# Renders and Large Media Outputs
+renders/
+outputs/
+temp_renders/
+cache/
+*.mp4
+*.mov
+*.avi
+*.webm
+*.wav
+*.mp3
+*.mkv
+
+# OS files
+Thumbs.db
+Desktop.ini

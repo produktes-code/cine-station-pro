@@ -1,0 +1,23 @@
+services:
+  backend:
+    build: ./backend
+    ports: ["8000:8000"]
+    environment:
+      - ALLOWED_ORIGINS=http://localhost:5173
+    volumes:
+      - media_data:/media
+      - render_output:/renders
+    depends_on: [redis]
+
+  frontend:
+    build: .
+    ports: ["5173:5173"]
+
+  redis:
+    image: redis:7-alpine
+    volumes: [redis_data:/data]
+
+volumes:
+  media_data:
+  render_output:
+  redis_data:

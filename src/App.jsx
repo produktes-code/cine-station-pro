@@ -39,10 +39,10 @@ function App() {
               <option value="es">ESPAÑOL</option>
               <option value="en">ENGLISH</option>
               <option value="de">DEUTSCH</option>
-              <option value="ru">РУССКИЙ</option>
-              <option value="ja">日本語</option>
               <option value="uk">УКРАЇНСЬКА</option>
+              <option value="ru">РУССКИЙ</option>
               <option value="zh">中文</option>
+              <option value="ja">日本語</option>
             </select>
           </div>
         </div>
@@ -52,6 +52,20 @@ function App() {
       <div className="flex-1 overflow-hidden relative">
         <CineStation language={language} />
       </div>
+
+      {/* Footer */}
+      <footer className="h-8 border-t border-white/5 bg-black/60 backdrop-blur-md flex items-center justify-between px-6 shrink-0 text-[10px] text-gray-500 font-meta-code uppercase tracking-wider z-20">
+        <div>
+          <span>Creado por </span>
+          <a href="https://github.com/produktes-code" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-300 hover:underline font-bold transition-all">
+            produktes-code
+          </a>
+          <span> · GitHub</span>
+        </div>
+        <div>
+          <span>© 2026 CineStation Pro</span>
+        </div>
+      </footer>
     </div>
   );
 }
