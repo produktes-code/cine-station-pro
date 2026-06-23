@@ -16,7 +16,12 @@
 
 **CineStation Pro** is an absolute virtual cinema workstation and multi-modal generative video console designed for Directors of Photography, VFX artists, and digital creators. It acts as an advanced technical bridge that translates creative scene briefs into highly structured camera coordinate payloads (`Pan`, `Tilt`, `Zoom`, and `Roll` motion vectors) for generative engines.
 
-The platform is designed to be fully localized in **7 idiomas (ES, EN, DE, UK, RU, ZH, JA)**, allowing international teams to collaborate seamlessly.
+The platform is designed to be fully localized in **7 languages**, allowing international teams to collaborate seamlessly.
+
+<p align="center">
+  <b>🌐 Multilingual & Multimodal Support / Soporte Multiidioma:</b><br/>
+  🇪🇸 Spanish | 🇬🇧 English | 🇩🇪 German | 🇷🇺 Russian | 🇯🇵 Japanese | 🇺🇦 Ukrainian | 🇨🇳 Chinese
+</p>
 
 ---
 
@@ -107,4 +112,4 @@ To ensure robust enterprise safety, the following rules are implemented:
 
 ## ⚖️ License & Credits
 
-*   **Titular:** Creado por **produktes-code** y distribuido bajo los términos de la licencia Creative Commons **CC BY-NC-SA 4.0** (Attribution-NonCommercial-ShareAlike 4.0 International).
+*   **Owner:** Created by **produktes-code** and **Jesús Ferrer García (CHUS BZN)**. All rights reserved. Distributed under a strict **Proprietary License** (any unauthorized copying or redistribution is strictly prohibited).
