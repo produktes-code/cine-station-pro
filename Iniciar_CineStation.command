@@ -5,18 +5,28 @@ echo "=========================================================="
 echo "               INICIANDO CINESTATION PRO                  "
 echo "=========================================================="
 echo ""
-echo "[1/3] Compilando última versión..."
+echo "[1/3] Verificando dependencias y compilando..."
+if [ ! -d "node_modules" ]; then
+    npm install
+fi
 npm run build > /dev/null 2>&1
 
-echo "[2/3] Iniciando motor local..."
+echo "[2/3] Iniciando motores locales (Frontend + Backend)..."
+# Iniciar backend FastAPI
+cd backend
+./venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 > /dev/null 2>&1 &
+BACKEND_PID=$!
+cd ..
+
+# Iniciar frontend
 npx -y serve -s dist -l 5173 > /dev/null 2>&1 &
-SERVER_PID=$!
+FRONTEND_PID=$!
 
-# Asegurar que el servidor local se detenga al salir del script
-trap "kill $SERVER_PID; exit" INT TERM EXIT
+# Asegurar que ambos servidores locales se detengan al salir del script
+trap "kill $BACKEND_PID $FRONTEND_PID; exit" INT TERM EXIT
 
-sleep 2
-echo "[2/2] Abriendo el panel en tu navegador..."
+sleep 3
+echo "[3/3] Abriendo el panel en tu navegador..."
 open "http://localhost:5173"
 
 echo ""
