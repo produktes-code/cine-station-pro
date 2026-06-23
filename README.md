@@ -83,6 +83,18 @@ The application will be available at `http://localhost:5173`.
 
 ---
 
+## 💻 Desktop Installation / Instaladores Nativos
+
+### 🍎 macOS
+1. Download `CineStation Pro-1.0.0.dmg` from the **Releases** tab (or local directory `/dist-electron`).
+2. Open the `.dmg` and drag the application to your `Applications` folder.
+
+### 🔌 Windows
+1. Download `CineStation Pro Setup 1.0.0.exe` from the **Releases** tab (or local directory `/dist-electron`).
+2. Run the installer and follow the setup wizard.
+
+---
+
 ## 🖥️ Tech Stack
 
 *   **Frontend:** React 19, Vite 8, Tailwind CSS, Lucide icons.
@@ -104,9 +116,9 @@ To ensure robust enterprise safety, the following rules are implemented:
 
 ## 📖 Documentation Reference
 
-*   Detailed User Manual (PDF): **[USER_MANUAL.pdf](docs/USER_MANUAL.pdf)**
-*   API Endpoints Schema: **[API_REFERENCE.md](API_REFERENCE.md)**
-*   Color Preset Configuration: **[COLOR_GRADING_GUIDE.md](COLOR_GRADING_GUIDE.md)**
+*   📕 Detailed User Manual (PDF): **[USER_MANUAL.pdf](docs/USER_MANUAL.pdf)**
+*   📄 API Endpoints Schema: **[API_REFERENCE.md](API_REFERENCE.md)**
+*   🎨 Color Preset Configuration: **[COLOR_GRADING_GUIDE.md](COLOR_GRADING_GUIDE.md)**
 
 ---
 
