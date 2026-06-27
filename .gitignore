@@ -68,3 +68,10 @@ cache/
 # OS files
 Thumbs.db
 Desktop.ini
+
+# Standalone runtimes and binary distributions
+backend/standalone-python/
+backend/standalone-python-windows/
+backend/bin/ffmpeg.exe
+backend/bin/ffprobe
+backend/bin/ffprobe.exe

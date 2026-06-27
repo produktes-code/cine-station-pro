@@ -42,7 +42,7 @@ class ColorGrader:
             raise FileNotFoundError(f"LUT file not found: {lut_path}")
             
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-vf", f"lut3d=file='{lut_path}'",
             "-c:v", "libx264",
@@ -56,7 +56,7 @@ class ColorGrader:
         Applies automatic white balance adjustments using FFmpeg's auto-curves filter.
         """
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-vf", "curves=all=auto",
             "-c:v", "libx264",
@@ -70,7 +70,7 @@ class ColorGrader:
         Performs automatic exposure correction using histogram equalization.
         """
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-vf", "histeq=strength=0.1",
             "-c:v", "libx264",
@@ -88,7 +88,7 @@ class ColorGrader:
           - gain -> contrast (range -2.0 to 2.0, default 1.0)
         """
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-vf", f"eq=brightness={lift}:gamma={gamma}:contrast={gain}",
             "-c:v", "libx264",
@@ -102,7 +102,7 @@ class ColorGrader:
         Adjusts saturation of the video clip (default 1.0).
         """
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-vf", f"eq=saturation={saturation}",
             "-c:v", "libx264",
@@ -116,7 +116,7 @@ class ColorGrader:
         Adjusts contrast of the video clip (default 1.0).
         """
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-vf", f"eq=contrast={contrast}",
             "-c:v", "libx264",
@@ -141,7 +141,7 @@ class ColorGrader:
         if preset_name not in presets:
             logger.error(f"Preset '{preset_name}' is not defined. Defaulting to bypass.")
             cmd = [
-                "ffmpeg", "-y",
+                settings.FFMPEG_PATH, "-y",
                 "-i", video_path,
                 "-c:v", "copy",
                 "-c:a", "copy",
@@ -152,7 +152,7 @@ class ColorGrader:
 
         filter_str = presets[preset_name]
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-vf", filter_str,
             "-c:v", "libx264",

@@ -43,7 +43,10 @@
         "filter": [
           "**/*",
           "!logs/**",
-          "!temp_renders/**"
+          "!temp_renders/**",
+          "!venv/**",
+          "!**/__pycache__/**",
+          "!**/*.pyc"
         ]
       }
     ]

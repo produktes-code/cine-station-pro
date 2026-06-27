@@ -9,10 +9,11 @@ function startBackend() {
     const isPackaged = app.isPackaged;
     const baseDir = isPackaged ? process.resourcesPath : __dirname;
     
-    const venvBin = process.platform === 'win32' ? 'Scripts' : 'bin';
+    const pythonDir = process.platform === 'win32' ? 'standalone-python-windows' : 'standalone-python';
+    const binDirName = process.platform === 'win32' ? 'Scripts' : 'bin';
     const uvicornCmd = process.platform === 'win32' ? 'uvicorn.exe' : 'uvicorn';
     
-    const uvicornPath = path.join(baseDir, 'backend', 'venv', venvBin, uvicornCmd);
+    const uvicornPath = path.join(baseDir, 'backend', pythonDir, binDirName, uvicornCmd);
     const ffmpegBinDir = path.join(baseDir, 'backend', 'bin');
     const cwd = path.join(baseDir, 'backend');
 

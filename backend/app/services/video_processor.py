@@ -41,7 +41,7 @@ class VideoProcessor:
         Retrieves video metadata using ffprobe.
         """
         cmd = [
-            "ffprobe",
+            settings.FFPROBE_PATH,
             "-v", "error",
             "-show_format",
             "-show_streams",
@@ -71,7 +71,7 @@ class VideoProcessor:
         """
         duration = end_time - start_time
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-ss", str(start_time),
             "-i", input_path,
             "-t", str(duration),
@@ -98,7 +98,7 @@ class VideoProcessor:
                     f.write(f"file '{escaped_path}'\n")
 
             cmd = [
-                "ffmpeg", "-y",
+                settings.FFMPEG_PATH, "-y",
                 "-f", "concat",
                 "-safe", "0",
                 "-i", list_file_path,
@@ -118,7 +118,7 @@ class VideoProcessor:
         Extracts a single frame from the video at a specific timestamp.
         """
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-ss", str(timestamp),
             "-i", video_path,
             "-vframes", "1",
@@ -136,7 +136,7 @@ class VideoProcessor:
             height = 360
             
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-vf", f"scale=-2:{height}",
             "-c:v", "libx264",
@@ -153,7 +153,7 @@ class VideoProcessor:
         Transcodes video file to a specific video codec and speed preset.
         """
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-c:v", codec,
             "-preset", preset,
@@ -167,7 +167,7 @@ class VideoProcessor:
         Extracts audio streams into a separate WAV audio container.
         """
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-vn",
             "-acodec", "pcm_s16le",
@@ -182,7 +182,7 @@ class VideoProcessor:
         Replaces audio channels in a video clip with a external audio file.
         """
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-i", audio_path,
             "-map", "0:v:0",

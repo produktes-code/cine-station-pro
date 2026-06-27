@@ -34,7 +34,31 @@ class Settings(BaseSettings):
             return ["*"]
         return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",") if origin.strip()]
 
+    @property
+    def FFMPEG_PATH(self) -> str:
+        backend_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        bin_name = "ffmpeg.exe" if os.name == "nt" else "ffmpeg"
+        bundled_path = os.path.join(backend_dir, "bin", bin_name)
+        if os.path.exists(bundled_path):
+            return bundled_path
+        return "ffmpeg"
+
+    @property
+    def FFPROBE_PATH(self) -> str:
+        backend_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        bin_name = "ffprobe.exe" if os.name == "nt" else "ffprobe"
+        bundled_path = os.path.join(backend_dir, "bin", bin_name)
+        if os.path.exists(bundled_path):
+            return bundled_path
+        return "ffprobe"
+
 settings = Settings()
+
+# Add bundled bin directory to PATH for subprocess calls compatibility
+backend_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+bundled_bin_dir = os.path.join(backend_dir, "bin")
+if os.path.exists(bundled_bin_dir):
+    os.environ["PATH"] = bundled_bin_dir + os.path.pathsep + os.environ.get("PATH", "")
 
 # Ensure TEMP_DIR is initialized and exists inside the workspace
 if not settings.TEMP_DIR:

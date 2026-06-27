@@ -62,7 +62,7 @@ class EffectEngine:
             raise ValueError(f"Visual filter '{filter_name}' is not supported.")
 
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-vf", filters[filter_name],
             "-c:v", "libx264",
@@ -90,7 +90,7 @@ class EffectEngine:
         filter_str = f"[0:v][1:v]xfade=transition={transition}:duration={duration}:offset={offset}"
 
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video1_path,
             "-i", video2_path,
             "-filter_complex", filter_str,
@@ -132,7 +132,7 @@ class EffectEngine:
         filter_str = ",".join(vf_filters) if vf_filters else "copy"
 
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-vf", filter_str,
             "-c:v", "libx264",
@@ -154,7 +154,7 @@ class EffectEngine:
             raise ValueError(f"Key type '{key_type}' is not supported.")
 
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-vf", filter_str,
             "-c:v", "libx264",
@@ -194,7 +194,7 @@ class EffectEngine:
                 final_expr = f"if(lt(t,{t_limit}),{step_expr},{final_expr})"
                 
             cmd = [
-                "ffmpeg", "-y",
+                settings.FFMPEG_PATH, "-y",
                 "-i", video_path,
                 "-vf", f"eq=brightness='{final_expr}'",
                 "-c:v", "libx264",
@@ -205,7 +205,7 @@ class EffectEngine:
         elif parameter == "zoom":
             # Simple zoompan logic in FFmpeg (default zoom starts at 1.0)
             cmd = [
-                "ffmpeg", "-y",
+                settings.FFMPEG_PATH, "-y",
                 "-i", video_path,
                 "-vf", "zoompan=z='zoom+0.001':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=125",
                 "-c:v", "libx264",

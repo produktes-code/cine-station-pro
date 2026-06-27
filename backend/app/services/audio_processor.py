@@ -38,7 +38,7 @@ class AudioProcessor:
         """
         Extracts the audio track from the video in the requested format (wav, mp3, aac).
         """
-        cmd = ["ffmpeg", "-y", "-i", video_path, "-vn"]
+        cmd = [settings.FFMPEG_PATH, "-y", "-i", video_path, "-vn"]
         if format.lower() == "mp3":
             cmd += ["-acodec", "libmp3lame", "-aq", "2"]
         elif format.lower() == "aac":
@@ -55,7 +55,7 @@ class AudioProcessor:
         target_db stands for target integrated loudness (LUFS).
         """
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", audio_path,
             "-af", f"loudnorm=I={target_db}:TP=-1.5:LRA=11",
             output_path
@@ -69,7 +69,7 @@ class AudioProcessor:
         if not track_paths:
             raise ValueError("No audio tracks provided for mixing")
             
-        cmd = ["ffmpeg", "-y"]
+        cmd = [settings.FFMPEG_PATH, "-y"]
         for path in track_paths:
             cmd += ["-i", path]
             
@@ -91,7 +91,7 @@ class AudioProcessor:
         filter_str = ",".join(eq_filters) if eq_filters else "anull"
         
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", audio_path,
             "-af", filter_str,
             output_path
@@ -104,7 +104,7 @@ class AudioProcessor:
         threshold is in dB (e.g. -20.0), ratio is ratio (e.g. 4.0).
         """
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", audio_path,
             "-af", f"acompressor=threshold={threshold}:ratio={ratio}:attack=20:release=250",
             output_path
@@ -116,7 +116,7 @@ class AudioProcessor:
         Applies high-quality FFT noise reduction to the audio file using FFmpeg's afftdn filter.
         """
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", audio_path,
             "-af", "afftdn",
             output_path
@@ -128,7 +128,7 @@ class AudioProcessor:
         Synchronizes an external audio track to a video file, mapping them and cutting to shortest duration.
         """
         cmd = [
-            "ffmpeg", "-y",
+            settings.FFMPEG_PATH, "-y",
             "-i", video_path,
             "-i", audio_path,
             "-map", "0:v:0",

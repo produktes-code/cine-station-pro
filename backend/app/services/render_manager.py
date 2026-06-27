@@ -16,12 +16,44 @@ try:
     redis_conn.ping()
     logger.info("RenderManager connected to Redis successfully.")
 except Exception as e:
-    logger.warning(f"Could not connect to Redis broker ({e}). Falling back to in-memory state tracking.")
+    logger.warning(f"Redis unreachable, falling back to in-memory queue")
     redis_conn = None
 
-# Fallback local dictionary storage in case Redis is not running
+# Fallback queue and local dictionaries storage in case Redis is not running
+import queue
+import threading
+
+_in_memory_queue = queue.Queue()
 _in_memory_status = {}
 _in_memory_progress = {}
+
+def _in_memory_worker():
+    while True:
+        try:
+            job_data = _in_memory_queue.get()
+            if job_data is None:
+                break
+            
+            job_id, project_id, timeline_data, export_config = job_data
+            
+            # Check if job was cancelled while in queue
+            if _in_memory_status.get(job_id) == "cancelled":
+                _in_memory_queue.task_done()
+                continue
+                
+            try:
+                execute_render_task(None, job_id, project_id, timeline_data, export_config)
+            except Exception as e:
+                logger.error(f"Error running in-memory render task {job_id}: {e}")
+            finally:
+                _in_memory_queue.task_done()
+        except Exception as e:
+            logger.exception(f"In-memory worker error: {e}")
+
+# Start 3 fallback worker threads to handle concurrent rendering tasks
+for _ in range(3):
+    t = threading.Thread(target=_in_memory_worker, daemon=True)
+    t.start()
 
 @celery_app.task(bind=True, time_limit=7200, name="app.services.render_manager.execute_render_task")
 def execute_render_task(self, job_id: str, project_id: str, timeline_data: dict, export_config: dict):
@@ -127,29 +159,25 @@ class RenderManager:
         Starts rendering if under the concurrency limit of 3.
         Returns True if successfully started or False if queued due to limit.
         """
-        active_renders = self._get_active_renders_count()
-        if active_renders >= self.max_concurrent_renders:
-            logger.warning(f"Render job {job_id} cannot start: active renders ({active_renders}) reaches concurrency limit.")
-            return False
-
-        # Attempt to run using Celery task queue
-        try:
-            execute_render_task.delay(job_id, project_id, timeline_data, export_config)
-            logger.info(f"Enqueued render job {job_id} onto Celery Redis broker.")
-            return True
-        except Exception as e:
-            logger.warning(f"Failed to enqueue task to Celery ({e}). Running in local threading fallback mode.")
-            # Local background execution fallback via thread
-            import threading
-            def run_fallback():
-                try:
-                    execute_render_task(None, job_id, project_id, timeline_data, export_config)
-                except Exception:
-                    pass
-            thread = threading.Thread(target=run_fallback)
-            thread.daemon = True
-            thread.start()
-            return True
+        # If Redis is running, attempt to run using Celery task queue
+        if redis_conn:
+            active_renders = self._get_active_renders_count()
+            if active_renders >= self.max_concurrent_renders:
+                logger.warning(f"Render job {job_id} cannot start: active renders ({active_renders}) reaches concurrency limit.")
+                return False
+            try:
+                execute_render_task.delay(job_id, project_id, timeline_data, export_config)
+                logger.info(f"Enqueued render job {job_id} onto Celery Redis broker.")
+                return True
+            except Exception as e:
+                logger.warning(f"Failed to enqueue task to Celery ({e}). Falling back to in-memory queue.")
+        
+        # Redis is unreachable or Celery failed, fall back to in-memory queue
+        logger.warning("Redis unreachable, falling back to in-memory queue")
+        _in_memory_status[job_id] = "queued"
+        _in_memory_progress[job_id] = 0
+        _in_memory_queue.put((job_id, project_id, timeline_data, export_config))
+        return True
 
     def cancel_render(self, job_id: str) -> None:
         """

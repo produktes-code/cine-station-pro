@@ -24,7 +24,7 @@ class StreamingManager:
 
         # FFmpeg command for RTMP streaming push
         cmd = [
-            "ffmpeg", "-re",
+            settings.FFMPEG_PATH, "-re",
             "-i", video_path,
             "-c:v", "libx264",
             "-preset", "veryfast",
@@ -66,7 +66,7 @@ class StreamingManager:
 
         # FFmpeg command for HLS segmenting
         cmd = [
-            "ffmpeg", "-re",
+            settings.FFMPEG_PATH, "-re",
             "-i", video_path,
             "-c:v", "libx264",
             "-preset", "veryfast",
