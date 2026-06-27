@@ -42,7 +42,7 @@ def _in_memory_worker():
                 continue
                 
             try:
-                execute_render_task(None, job_id, project_id, timeline_data, export_config)
+                execute_render_task.run(job_id, project_id, timeline_data, export_config)
             except Exception as e:
                 logger.error(f"Error running in-memory render task {job_id}: {e}")
             finally:

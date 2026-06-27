@@ -2,23 +2,27 @@ from fastapi import APIRouter, Request, HTTPException, status
 from app.core.limiter import limiter
 from app.services.render_manager import RenderManager
 from typing import Dict, Any
+from pydantic import BaseModel
 
 router = APIRouter()
 render_manager = RenderManager()
+
+class RenderJobPayload(BaseModel):
+    project_id: str
+    timeline_data: Dict[str, Any]
+    export_config: Dict[str, Any]
 
 @router.post("/jobs", status_code=status.HTTP_201_CREATED)
 @limiter.limit("5/minute")
 async def create_job(
     request: Request, 
-    project_id: str, 
-    timeline_data: Dict[str, Any], 
-    export_config: Dict[str, Any]
+    payload: RenderJobPayload
 ):
     """
     Registers a new rendering job task entry in queued state.
     """
     try:
-        job_id = render_manager.create_render_job(project_id, timeline_data, export_config)
+        job_id = render_manager.create_render_job(payload.project_id, payload.timeline_data, payload.export_config)
         return {"job_id": job_id, "status": "queued"}
     except Exception as e:
         raise HTTPException(
@@ -31,14 +35,12 @@ async def create_job(
 async def start_job(
     request: Request, 
     job_id: str, 
-    project_id: str, 
-    timeline_data: Dict[str, Any], 
-    export_config: Dict[str, Any]
+    payload: RenderJobPayload
 ):
     """
     Starts rendering an enqueued job, subject to the maximum concurrency limit of 3.
     """
-    started = render_manager.start_render(job_id, project_id, timeline_data, export_config)
+    started = render_manager.start_render(job_id, payload.project_id, payload.timeline_data, payload.export_config)
     if not started:
         raise HTTPException(
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
@@ -62,7 +64,7 @@ async def cancel_job(request: Request, job_id: str):
         )
 
 @router.get("/jobs/{job_id}/progress")
-@limiter.limit("5/minute")
+@limiter.limit("120/minute")
 async def get_progress(request: Request, job_id: str):
     """
     Retrieves execution progress percentage (0-100) and state status.

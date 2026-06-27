@@ -55,9 +55,9 @@ async def validate_uploaded_file(file: UploadFile) -> str:
             )
 
     # Enforce actual size check in bytes stream (to prevent falsified headers)
-    await file.seek(0, os.SEEK_END)
-    actual_size = await file.tell()
-    await file.seek(0)  # Reset read pointer
+    file.file.seek(0, os.SEEK_END)
+    actual_size = file.file.tell()
+    file.file.seek(0)  # Reset read pointer
 
     if actual_size > settings.MAX_UPLOAD_SIZE:
         logger.error(f"Byte check validation failed: Actual file size ({actual_size} bytes) exceeds limit of {settings.MAX_UPLOAD_SIZE} bytes")
