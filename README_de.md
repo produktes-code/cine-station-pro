@@ -98,3 +98,7 @@ Zur Gewährleistung der Zuverlässigkeit in der Produktion gelten folgende Regel
 
 ## ⚖️ Lizenz & Credits
 *   **Inhaber:** Erstellt von **produktes-code** und lizenziert unter den Bedingungen von Creative Commons **CC BY-NC-SA 4.0** (Namensnennung-Nicht kommerziell-ShareAlike 4.0 International).
+
+
+⚠️ Hinweis für macOS-Benutzer: Beim ersten Öffnen der Anwendung zeigt macOS möglicherweise eine Sicherheitswarnung an. Lösung: Klicken Sie mit der rechten Maustaste auf die Anwendung und wählen Sie "Öffnen", dann klicken Sie im Dialog auf "Öffnen". Falls sie bereits blockiert wurde, gehen Sie zu Systemeinstellungen > Datenschutz & Sicherheit und klicken Sie auf "Trotzdem öffnen".
+

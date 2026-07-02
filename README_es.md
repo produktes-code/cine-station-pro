@@ -98,3 +98,7 @@ Para asegurar la fiabilidad en producción, se aplican las siguientes reglas:
 
 ## ⚖️ Licencia y Créditos
 *   **Titular:** Creado por **produktes-code** y distribuido bajo los términos de la licencia Creative Commons **CC BY-NC-SA 4.0** (Attribution-NonCommercial-ShareAlike 4.0 International).
+
+
+⚠️ Aviso para usuarios de macOS: Al abrir la aplicación por primera vez, macOS puede mostrar un aviso de seguridad. Solución: haz clic derecho sobre la aplicación y selecciona "Abrir", luego haz clic en "Abrir" en el diálogo. Si ya fue bloqueada, ve a Preferencias del Sistema > Privacidad y Seguridad y haz clic en "Abrir de todos modos".
+
