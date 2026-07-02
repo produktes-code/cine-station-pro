@@ -2,132 +2,84 @@
   <img src="build/icon.png" width="128" height="128" style="border-radius: 28px; box-shadow: 0 8px 24px rgba(0,0,0,0.25);" alt="CineStation Pro Logo" />
 </p>
 
-<h1 align="center">CineStation Pro</h1>
+<h1 align="center">CineStation Pro V1.0.0</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Build-Passing-emerald?style=for-the-badge" alt="Build Status" />
-  <img src="https://img.shields.io/badge/License-CC_BY--NC--SA_4.0-blue?style=for-the-badge" alt="CC BY-NC-SA 4.0 License" />
-  <img src="https://img.shields.io/badge/Version-v1.0.0-teal?style=for-the-badge" alt="Version 1.0.0" />
+  <b>Absolute virtual cinema workstation and multi-modal generative video console</b><br/>
+  <i>Consola de video generativo multimodal y terminal de operaciones paramétricas</i>
 </p>
-
----
-
-## 🎯 Description
-
-**CineStation Pro** is an absolute virtual cinema workstation and multi-modal generative video console designed for Directors of Photography, VFX artists, and digital creators. It acts as an advanced technical bridge that translates creative scene briefs into highly structured camera coordinate payloads (`Pan`, `Tilt`, `Zoom`, and `Roll` motion vectors) for generative engines.
-
-The platform is designed to be fully localized in **7 languages**, allowing international teams to collaborate seamlessly.
 
 <p align="center">
-  <b>🌐 Multilingual & Multimodal Support / Soporte Multiidioma:</b><br/>
-  🇪🇸 Spanish | 🇬🇧 English | 🇩🇪 German | 🇷🇺 Russian | 🇯🇵 Japanese | 🇺🇦 Ukrainian | 🇨🇳 Chinese
+  <img src="https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge" alt="Build" />
+  <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Status-Enterprise_Ready-success?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/License-CC_BY--NC--SA_4.0-red?style=for-the-badge" alt="License" />
 </p>
 
----
-
-## 🛠️ Main Features
-
-*   **Physical Camera HUD:** Set parametric motion vectors such as Pan, Tilt, Zoom, and Roll in real-time.
-*   **Multi-Engine Workflows:** Supports T2V, I2V, V2V, and FACE modes.
-*   **NLP Visual Directives:** Auto-enhance creative prompts using neural optimization.
-*   **Structured Logging:** Integrated terminal buffer with real-time token tracking.
-*   **Security & Guardrails:** Reinforced backend filters for production safety.
+🌐 **Read this in:** **🇬🇧 English** | [🇪🇸 Español](README_es.md) | [🇩🇪 Deutsch](README_de.md) | [🇷🇺 Русский](README_ru.md) | [🇯🇵 日本語](README_ja.md) | [🇺🇦 Українська](README_uk.md) | [🇨🇳 中文](README_zh.md)
 
 ---
 
-## 📸 Responsive Interfaces (Screenshots)
+## 🎯 The Vision (Introduction)
 
-### Desktop View (1920x1080)
-![Desktop Layout](docs/screenshots/screenshot-Desktop.png)
+The generative video revolution (Sora, Runway) brought a massive problem: chaos in control. Using simple text prompts, creators lost physical and optical control of the scene, delegating crucial lighting and cinematography decisions to the engine's 'hallucinations'. CineStation Pro was born to give control back to the Director of Photography. We designed it not as an app, but as a parametric operations console. It acts as a hyper-precise translator: you input camera physics (Pan Vectors, 70s Anamorphic Optics, HMI Light), and our architecture compiles an exact neural payload. It is the definitive bridge between traditional cinema art and massive diffusion models.
 
-### Tablet View (768x1024)
-![Tablet Layout](docs/screenshots/screenshot-Tablet.png)
-
-### Mobile View (390x844)
-![Mobile Layout](docs/screenshots/screenshot-Mobile.png)
+> [!NOTE]
+> Developed by **produktes-code** and **Jesús Ferrer (CHUS BZN)** to establish professional standards in commercial engineering.
 
 ---
 
-## ⚙️ Installation & Configuration
+## 📸 Interface / Ergonomics
 
-### Docker Deployment (Recommended)
-You can run the entire CineStation Pro stack (Frontend, FastAPI Backend, Redis) using Docker Compose:
-```bash
-docker compose up --build
-```
-The application will be available at `http://localhost:5173`.
+![Desktop Interface](docs/screenshots/screenshot-Desktop.png)
 
-### Manual Local Setup
-1. **Backend Installation:**
-   ```bash
-   cd backend
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   uvicorn app.main:app --port 8000
-   ```
-2. **Frontend Installation:**
-   ```bash
-   npm install
-   npm run dev
-   ```
 
 ---
 
-## 🚀 Quick Start Guide
+## ⚙️ Parameter Masterclass (Features)
 
-1. Configure your environment keys in the `.env` file based on `.env.example`.
-2. Launch the application and select your preferred language in the top-right menu (supports **7 idiomas**).
-3. Import your keyframe image or raw footage video. The system validates the payload size (max **2 GB**) and content type.
-4. Set your camera physical parameters, click **Compile Sequence**, copy the JSON payload or run the execution pipeline.
-
----
-
-## 💻 Desktop Installation / Instaladores Nativos
-
-### 🍎 macOS
-1. Download `CineStation Pro-1.0.0.dmg` from the **Releases** tab (or local directory `/dist-electron`).
-2. Open the `.dmg` and drag the application to your `Applications` folder.
-
-### 🔌 Windows
-1. Download `CineStation Pro Setup 1.0.0.exe` from the **Releases** tab (or local directory `/dist-electron`).
-2. Run the installer and follow the setup wizard.
+- **Physical Vector Console (Pan/Tilt/Roll)**: AI engines don't understand framing well unless you speak their mathematical language. We programmed sliders that package purely physical camera movement metrics ('Whip Pan', 'Tilt Up'). A Whip Pan generates specific motion blur adding frenzy, impossible with a generic prompt.
+- **Real Analog Optics Simulator**: Modern digital aesthetics are often sterile. Integrating profiles like the 'Panavision C-Series' lens orders the AI to simulate its inherent imperfections: horizontal blue flares and oval bokeh. This gives an organic soul to the generated image.
+- **Modular Lighting Architecture**: Light tells the story. Directors can choose 'Arri Skypanel' or 'Tungsten Lamp', drastically altering skin rendering and volumetric contrast, forcing the model to behave like a real film set.
+- **Hybrid NLP Processing**: The free text input goes through a proprietary AI parser that grammatically structures the phrase, joining it with the physical parameters. It's transparent prompt engineering.
+- **Asynchronous Backend Infrastructure (Celery/Redis)**: Why use Celery? Because video rendering would freeze any blocking interface. The React UI simply dispatches the job; asynchronous workers bear the load in the background, returning robust, crash-proof software.
 
 ---
 
-## 🖥️ Tech Stack
+## 🛡️ Shielding Architecture (Security)
 
-*   **Frontend:** React 19, Vite 8, Tailwind CSS, Lucide icons.
-*   **Backend:** FastAPI (Python 3.11), SlowAPI, Pydantic settings.
-*   **Asynchronous Processing:** Celery + Redis.
-*   **Desktop Shell:** Electron wrapper producing native installers (** .dmg / .exe **).
+In Retail and Enterprise deployment, a system crash is not a bug; it is capital loss. We designed a defensive armor (Shielding) emulating DevSecOps best practices:
 
----
-
-## 🛡️ Guardrails & Safety Protocols
-
-To ensure robust enterprise safety, the following rules are implemented:
-*   **Rate limiting:** Enforced across all endpoints to prevent API abuse (5/min for exports, 10/min for color/audio, 30/min for general).
-*   **Magic Bytes Check:** Video and image uploads are parsed at the binary level using signatures (**Magic Bytes**) to prevent file extensions masking.
-*   **Upload Limit:** Enforced strictly at the web server and backend level to reject payloads exceeding **2 GB**.
-*   **CORS Policies:** Dynamic origin checking based on CORS configuration.
+• **Anti-Flood Engineering (Rate limiting)**: Asynchronous algorithms strangle anomalous request spikes using limitation middlewares.
+• **Binary Crystallography (Magic Bytes)**: The system opens the file header and verifies the native hexadecimal sequence to certify container integrity.
+• **RAM Sanity (2 GB Limit)**: We relentlessly reject any atypical weight at the upload threshold to prevent Out Of Memory attacks.
 
 ---
 
-## 📖 Documentation Reference
+## 🚀 Technical Deployment (Installation)
 
-*   📕 Detailed User Manual (PDF): **[USER_MANUAL.pdf](docs/USER_MANUAL.pdf)**
-*   📄 API Endpoints Schema: **[API_REFERENCE.md](API_REFERENCE.md)**
-*   🎨 Color Preset Configuration: **[COLOR_GRADING_GUIDE.md](COLOR_GRADING_GUIDE.md)**
+The deployment process of this tool responds to an industry imperative: in a studio or production environment, time spent configuring dependencies is time wasted. We packaged a 'Zero-Friction' architecture compiling DSP libraries, Python binaries, and renderers directly into the application's core.
+
+• **macOS Systems**: The `.dmg` binary guarantees absolute portability. Note: Because it lacks a paid developer certificate for Apple's Notarization Service, macOS Gatekeeper will quarantine the binary. As engineers, we know the legitimate local bypass method is 'Right-click -> Open'. It is not a flaw; it is the standard flow of high-performance open-source software.
+• **Windows Systems**: The installer payload silently auto-configures the Windows PATH environment, evading conflicts with pre-existing Python installations.
 
 ---
 
-## ⚖️ License & Credits
+## 📚 Documentation & Manuals
 
-*   **Owner:** Created by **produktes-code** and **Jesús Ferrer García (CHUS BZN)**. All rights reserved. Distributed under a strict **Proprietary License** (any unauthorized copying or redistribution is strictly prohibited).
+For an exhaustive technical masterclass, troubleshooting guides, and full API details, please download our official manual:
+
+📥 **[USER_MANUAL.pdf (PDF - 7 Languages)](docs/USER_MANUAL.pdf)**
+
+
+---
+
+## ⚖️ Engineering Manifesto, Credits & License
+
+Software conceived and articulated from the produktes-code labs in inseparable union with Engineer Jesus Ferrer Garcia (CHUS BZN).
+
+Licensed under proprietary restrictions and strictest open source margins (CC BY-NC-SA 4.0). CORPORATE STANDARD - RETAIL READY.
+
 
 
 ⚠️ macOS Users Notice: When opening the application for the first time, macOS may show a security warning. Solution: right-click on the application and select "Open", then click "Open" in the dialog. If it was already blocked, go to System Preferences > Privacy & Security and click "Open Anyway".
-
-⚠️ Aviso para usuarios de macOS: Al abrir la aplicación por primera vez, macOS puede mostrar un aviso de seguridad. Solución: haz clic derecho sobre la aplicación y selecciona "Abrir", luego haz clic en "Abrir" en el diálogo. Si ya fue bloqueada, ve a Preferencias del Sistema > Privacidad y Seguridad y haz clic en "Abrir de todos modos".
-

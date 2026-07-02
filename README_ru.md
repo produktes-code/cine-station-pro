@@ -2,103 +2,82 @@
   <img src="build/icon.png" width="128" height="128" style="border-radius: 28px; box-shadow: 0 8px 24px rgba(0,0,0,0.25);" alt="CineStation Pro Logo" />
 </p>
 
-<h1 align="center">CineStation Pro (RU)</h1>
+<h1 align="center">CineStation Pro V1.0.0</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Build-Passing-emerald?style=for-the-badge" alt="Build Status" />
-  <img src="https://img.shields.io/badge/License-CC_BY--NC--SA_4.0-blue?style=for-the-badge" alt="CC BY-NC-SA 4.0 License" />
-  <img src="https://img.shields.io/badge/Version-v1.0.0-teal?style=for-the-badge" alt="Version 1.0.0" />
+  <b>Absolute virtual cinema workstation and multi-modal generative video console</b><br/>
+  <i>Consola de video generativo multimodal y terminal de operaciones paramétricas</i>
 </p>
 
----
+<p align="center">
+  <img src="https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge" alt="Build" />
+  <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Status-Enterprise_Ready-success?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/License-CC_BY--NC--SA_4.0-red?style=for-the-badge" alt="License" />
+</p>
 
-## 🎯 Описание
-**CineStation Pro** — это профессиональная рабочая станция виртуального кинопроизводства и консоль генерации видео, разработанная для кинооператоров, VFX-художников и создателей цифрового контента. Она выступает техническим мостом, преобразующим творческие описания сцен в структурированные координаты движения камеры (`Pan`, `Tilt`, `Zoom`, `Roll`).
-
-Платформа полностью локализована на **7 idiomas (ES, EN, DE, UK, RU, ZH, JA)** для совместной работы международных команд.
-
----
-
-## 🛠️ Основные функции
-*   **Физический HUD камеры:** Настройка параметрических векторов движения в реальном времени.
-*   **Рабочие процессы с несколькими движками:** Полная поддержка режимов T2V, I2V, V2V и FACE.
-*   **Визуальные директивы NLP:** Автоматическая оптимизация промптов с помощью нейросетей.
-*   **Интерактивная консоль:** Буфер терминала с отслеживанием токенов промпта.
-*   **Безопасность и ограничения:** Усиленные фильтры бэкенда для безопасного выполнения в продакшене.
+🌐 **Читать на:** [🇬🇧 English](README.md) | [🇪🇸 Español](README_es.md) | [🇩🇪 Deutsch](README_de.md) | **🇷🇺 Русский** | [🇯🇵 日本語](README_ja.md) | [🇺🇦 Українська](README_uk.md) | [🇨🇳 中文](README_zh.md)
 
 ---
 
-## 📸 Адаптивный дизайн (Снимки экрана)
-### Просмотр на настольных компьютерах (1920x1080)
-![Десктоп](docs/screenshots/screenshot-Desktop.png)
-### Просмотр на планшетах (768x1024)
-![Планшет](docs/screenshots/screenshot-Tablet.png)
-### Просмотр на мобильных устройствах (390x844)
-![Мобильный](docs/screenshots/screenshot-Mobile.png)
+## 🎯 Видение
+
+Революция генеративного видео принесла проблему: хаос в контроле. Творцы потеряли физический контроль над сценой. CineStation Pro была создана, чтобы вернуть контроль оператору. Она действует как консоль параметрических операций и точный переводчик физики камеры в нейронные полезные нагрузки.
+
+> [!NOTE]
+> Developed by **produktes-code** and **Jesús Ferrer (CHUS BZN)** to establish professional standards in commercial engineering.
 
 ---
 
-## ⚙️ Установка и настройка
+## 📸 Interface / Ergonomics
 
-### Развертывание через Docker (Рекомендуется)
-Запустите весь стек сервисов (Frontend, FastAPI бэкенд, Redis) с помощью Docker Compose:
-```bash
-docker compose up --build
-```
-Приложение будет доступно по адресу `http://localhost:5173`.
+![Desktop Interface](docs/screenshots/screenshot-Desktop.png)
 
-### Ручная локальная установка
-1. **FastAPI бэкенд:**
-   ```bash
-   cd backend
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   uvicorn app.main:app --port 8000
-   ```
-2. **React/Vite фронтенд:**
-   ```bash
-   npm install
-   npm run dev
-   ```
 
 ---
 
-## 🚀 Краткое руководство пользователя
-1. Настройте переменные в файле `.env` на основе `.env.example`.
-2. Запустите приложение и выберите нужный язык в верхнем правом меню (поддерживается **7 idiomas**).
-3. Импортируйте изображение ключевого кадра или видео. Система проверяет размер (макс. **2 GB**) и бинарные сигнатуры.
-4. Настройте параметры камеры, нажмите **Compile Sequence** и скопируйте выходной код JSON.
+## ⚙️ Мастер-класс параметров
+
+- **Консоль физических векторов**: Ползунки для движений, как 'Whip Pan', создают специфическое размытие движения.
+- **Симулятор оптики**: Эмулирует объективы 'Panavision C-Series' для органических недостатков, таких как синие блики.
+- **Модульное освещение**: Выбор 'Arri Skypanel' кардинально меняет рендеринг кожи.
+- **Гибридная обработка NLP**: Прозрачная оптимизация подсказок, структурирующая свободный текст.
+- **Асинхронный бекенд**: Предотвращает зависание интерфейса с помощью воркеров Celery/Redis.
 
 ---
 
-## 🖥️ Технологический стек
-*   **Фронтенд:** React 19, Vite 8, Tailwind CSS, иконки Lucide.
-*   **Бэкенд:** FastAPI (Python 3.11), SlowAPI, Pydantic settings.
-*   **Очередь рендеринга:** Celery + Redis.
-*   **Оболочка рабочего стола:** Electron wrapper для создания нативных инсталляторов (** .dmg / .exe **).
+## 🛡️ Архитектура экранирования
+
+Экранирование:
+
+• Anti-Flood: Блокировка всплесков запросов.
+• Magic Bytes: Гексадецимальная проверка файлов.
+• 2 GB Limit: Защита оперативной памяти.
 
 ---
 
-## 🛡️ Протоколы безопасности и ограничения
-Для обеспечения надежности и безопасности в продакшене применяются следующие правила:
-*   **Rate limiting:** Ограничение частоты запросов на всех эндпоинтах (5/мин для рендера, 10/мин для цвета/звука, 30/мин общих).
-*   **Проверка Magic Bytes:** Загрузки проверяются на уровне бинарных сигнатур (**Magic Bytes**) для предотвращения подмены расширений.
-*   **Лимит загрузки:** Жесткое ограничение максимального размера файла в **2 GB**.
-*   **Политики CORS:** Динамическая проверка разрешенных источников запросов.
+## 🚀 Техническое развертывание
+
+Архитектура 'Zero-Friction':
+
+• macOS: Gatekeeper заблокирует файл. Решение: 'Правый клик -> Открыть'.
+• Windows: Автоматическая конфигурация PATH.
 
 ---
 
-## 📖 Документация и ссылки
-*   Подробное руководство пользователя (PDF): **[USER_MANUAL.pdf](docs/USER_MANUAL.pdf)**
-*   Спецификация API: **[API_REFERENCE.md](API_REFERENCE.md)**
-*   Руководство по цветокоррекции: **[COLOR_GRADING_GUIDE.md](COLOR_GRADING_GUIDE.md)**
+## 📚 Документация и руководства
+
+Загрузите наше официальное руководство:
+
+📥 **[USER_MANUAL.pdf (PDF - 7 Languages)](docs/USER_MANUAL.pdf)**
+
 
 ---
 
-## ⚖️ Лицензия и авторские права
-*   **Владелец:** Создано **produktes-code** и распространяется на условиях лицензии Creative Commons **CC BY-NC-SA 4.0** (Атрибуция — Некоммерческое использование — С сохранением условий 4.0 Всемирная).
+## ⚖️ Инженерный манифест
+
+Разработано produktes-code и Jesus Ferrer (CHUS BZN). CC BY-NC-SA 4.0. CORPORATE STANDARD.
 
 
-⚠️ Предупреждение для пользователей macOS: При первом открытии приложения macOS может показать предупреждение безопасности. Решение: щелкните правой кнопкой мыши на приложении и выберите "Открыть", затем нажмите "Открыть" в диалоговом окне. Если оно уже заблокировано, перейдите в Системные настройки > Конфиденциальность и безопасность и нажмите "Все равно открыть".
 
+⚠️ macOS Users Notice: When opening the application for the first time, macOS may show a security warning. Solution: right-click on the application and select "Open", then click "Open" in the dialog. If it was already blocked, go to System Preferences > Privacy & Security and click "Open Anyway".
