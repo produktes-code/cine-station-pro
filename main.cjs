@@ -52,8 +52,8 @@ function createWindow() {
         height: 900,
         backgroundColor: '#111111', // CineStation Pro bg color
         webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false
+            nodeIntegration: false,
+            contextIsolation: true
         },
         title: 'CineStation Pro 1.0',
     });

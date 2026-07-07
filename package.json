@@ -11,11 +11,17 @@
     "preview": "vite preview",
     "electron:start": "cross-env DEV_SERVER_URL=http://localhost:5173 electron .",
     "electron:dev": "concurrently -k \"cross-env BROWSER=none npm run dev\" \"wait-on http://localhost:5173 && npm run electron:start\"",
-    "pack:all": "vite build && electron-builder --mac --win"
+    "pack:mac": "vite build && electron-builder --mac",
+    "pack:win": "vite build && electron-builder --win"
   },
   "build": {
     "appId": "com.produktes.cinestationpro",
     "productName": "CineStation Pro",
+    "files": [
+      "**/*",
+      "!backend/venv/**",
+      "!backend/**/__pycache__/**"
+    ],
     "mac": {
       "target": [
         "dmg"
