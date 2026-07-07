@@ -23,7 +23,7 @@ class VideoProcessor:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
-                timeout=settings.RENDER_TIMEOUT
+                timeout=7200  # 2 horas
             )
             if process.returncode != 0:
                 logger.error(f"FFmpeg error ({desc}). Return code: {process.returncode}. Stderr: {process.stderr}")
