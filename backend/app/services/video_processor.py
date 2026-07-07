@@ -65,6 +65,29 @@ class VideoProcessor:
             logger.exception(f"Error querying metadata via ffprobe: {e}")
             raise
 
+    def validate_video_format(self, file_path: str) -> None:
+        """
+        E12: Verifies if the file contains at least one valid video stream and supported codec.
+        """
+        info = self.get_video_info(file_path)
+        streams = info.get("streams", [])
+        
+        video_streams = [s for s in streams if s.get("codec_type") == "video"]
+        if not video_streams:
+            raise ValueError(f"No video streams found in file: {file_path}")
+            
+        supported_codecs = ["h264", "hevc", "vp9", "vp8", "av1", "prores", "mpeg4"]
+        valid = False
+        for vs in video_streams:
+            codec = vs.get("codec_name", "").lower()
+            if codec in supported_codecs:
+                valid = True
+                break
+                
+        if not valid:
+            codecs_found = [vs.get("codec_name") for vs in video_streams]
+            raise ValueError(f"No supported video codecs found. Found: {codecs_found}. Supported: {supported_codecs}")
+
     def trim_video(self, input_path: str, output_path: str, start_time: float, end_time: float) -> None:
         """
         Cuts a video clip between start_time and end_time (in seconds) and re-encodes to keep frame accuracy.
