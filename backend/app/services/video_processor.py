@@ -153,15 +153,31 @@ class VideoProcessor:
     def create_proxy(self, video_path: str, output_path: str, resolution: str = "480p") -> None:
         """
         Generates a lightweight proxy video for smooth editing inside Vite/Electron frontend.
+        Includes HDR to SDR (Rec.709) tonemapping if the source is Rec.2020 (E13).
         """
         height = 480
         if resolution == "360p":
             height = 360
             
+        info = self.get_video_info(video_path)
+        is_hdr = False
+        for s in info.get("streams", []):
+            if s.get("codec_type") == "video":
+                color_space = s.get("color_space", "")
+                color_transfer = s.get("color_transfer", "")
+                if "bt2020" in color_space.lower() or "smpte2084" in color_transfer.lower() or "arib-std-b67" in color_transfer.lower():
+                    is_hdr = True
+                break
+
+        if is_hdr:
+            vf = f"zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p,scale=-2:{height}"
+        else:
+            vf = f"scale=-2:{height}"
+
         cmd = [
             settings.FFMPEG_PATH, "-y",
             "-i", video_path,
-            "-vf", f"scale=-2:{height}",
+            "-vf", vf,
             "-c:v", "libx264",
             "-crf", "28",
             "-preset", "faster",
