@@ -69,7 +69,6 @@ def _save_jobs():
         logger.error(f"Error saving render jobs: {e}")
 
 def _load_jobs():
-    global _in_memory_status, _in_memory_progress
     filepath = os.path.join(settings.TEMP_DIR, "render_jobs.json")
     if os.path.exists(filepath):
         try:
