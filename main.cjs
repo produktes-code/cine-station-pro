@@ -21,6 +21,19 @@ function startBackend() {
     const envPath = process.env.PATH || '';
     const newPath = `${ffmpegBinDir}:${envPath}`;
 
+    // Explicitly verify and enforce execution permissions for ffmpeg on Unix-like systems
+    if (process.platform !== 'win32') {
+        try {
+            const fs = require('fs');
+            const ffmpegPath = path.join(ffmpegBinDir, 'ffmpeg');
+            const ffprobePath = path.join(ffmpegBinDir, 'ffprobe');
+            if (fs.existsSync(ffmpegPath)) fs.chmodSync(ffmpegPath, '755');
+            if (fs.existsSync(ffprobePath)) fs.chmodSync(ffprobePath, '755');
+        } catch (err) {
+            console.error(`[FFmpeg permissions error]: ${err.message}`);
+        }
+    }
+
     console.log(`Starting FastAPI backend from: ${backendPath} with cwd: ${cwd}`);
     console.log(`FFmpeg bin dir: ${ffmpegBinDir}`);
     
