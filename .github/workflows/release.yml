@@ -26,18 +26,23 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: Install Python Dependencies & Package Backend (Mac)
-        if: matrix.os == 'macos-latest'
+      - name: Install Python Dependencies & Package Backend
         run: |
           cd backend
-          python -m venv venv
-          source venv/bin/activate
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pyinstaller
-          # Empaquetamos la app
-          # CineStation Pro requerirá un script run.py similar
-          # pero por ahora, prepararemos la estructura.
-          # Nota: En CineStation Pro ya se usan carpetas `standalone-python`
+          pyinstaller --name cinestation_backend --onefile --hidden-import uvicorn --hidden-import fastapi app/main.py
+        
+      - name: Prepare Backend Binary
+        run: |
+          mkdir -p backend/dist
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            chmod +x backend/dist/cinestation_backend.exe || true
+          else
+            chmod +x backend/dist/cinestation_backend || true
+          fi
+        shell: bash
         
       - name: Install Node Dependencies
         run: npm install

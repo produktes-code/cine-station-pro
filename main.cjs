@@ -9,11 +9,11 @@ function startBackend() {
     const isPackaged = app.isPackaged;
     const baseDir = isPackaged ? process.resourcesPath : __dirname;
     
-    const pythonDir = process.platform === 'win32' ? 'standalone-python-windows' : 'standalone-python';
-    const binDirName = process.platform === 'win32' ? 'Scripts' : 'bin';
-    const uvicornCmd = process.platform === 'win32' ? 'uvicorn.exe' : 'uvicorn';
+    const backendExecutableName = process.platform === 'win32' ? 'cinestation_backend.exe' : 'cinestation_backend';
+    const backendPath = isPackaged 
+        ? path.join(baseDir, 'backend', 'dist', backendExecutableName)
+        : path.join(baseDir, 'backend', 'dist', backendExecutableName);
     
-    const uvicornPath = path.join(baseDir, 'backend', pythonDir, binDirName, uvicornCmd);
     const ffmpegBinDir = path.join(baseDir, 'backend', 'bin');
     const cwd = path.join(baseDir, 'backend');
 
@@ -21,10 +21,10 @@ function startBackend() {
     const envPath = process.env.PATH || '';
     const newPath = `${ffmpegBinDir}:${envPath}`;
 
-    console.log(`Starting FastAPI backend from: ${uvicornPath} with cwd: ${cwd}`);
+    console.log(`Starting FastAPI backend from: ${backendPath} with cwd: ${cwd}`);
     console.log(`FFmpeg bin dir: ${ffmpegBinDir}`);
     
-    backendProcess = spawn(uvicornPath, ['app.main:app', '--host', '127.0.0.1', '--port', '8000'], {
+    backendProcess = spawn(backendPath, [], {
         cwd: cwd,
         env: { ...process.env, PATH: newPath }
     });
@@ -43,6 +43,8 @@ function startBackend() {
 
     backendProcess.on('error', (err) => {
         console.error(`[FastAPI spawn error]: ${err.message}`);
+        const { dialog } = require('electron');
+        dialog.showErrorBox('Servicio backend no disponible', `El backend falló al iniciar: ${err.message}`);
     });
 }
 
