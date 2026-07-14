@@ -32,7 +32,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pyinstaller
-          pyinstaller --name cinestation_backend --onefile --hidden-import uvicorn --hidden-import fastapi app/main.py
+          pyinstaller --name cinestation_backend --onefile --hidden-import uvicorn --hidden-import fastapi --hidden-import celery.fixups --hidden-import celery.fixups.django app/main.py
         
       - name: Prepare Backend Binary
         run: |
