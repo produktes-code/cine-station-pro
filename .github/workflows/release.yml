@@ -27,7 +27,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: '3.11'
 
       - name: Install Python Dependencies & Package Backend
         run: |
@@ -59,8 +59,13 @@ jobs:
           fi
         shell: bash
 
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: app-${{ matrix.os }}
-          path: dist-electron/*.exe
+          path: |
+            dist-electron/*.exe
+            dist-electron/*.dmg
