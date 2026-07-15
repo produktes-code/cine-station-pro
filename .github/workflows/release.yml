@@ -48,11 +48,13 @@ jobs:
         run: npm install
 
       - name: Build Electron App
-        run: if [ "$RUNNER_OS" == "Windows" ]; then
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
             npm run pack:win
           else
             npm run pack:mac
           fi
+        shell: bash
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
