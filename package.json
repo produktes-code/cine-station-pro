@@ -2,6 +2,7 @@
   "name": "cinestation-app",
   "private": true,
   "version": "1.0.0",
+  "repository": "https://github.com/produktes-code/cine-station-pro",
   "type": "module",
   "main": "main.cjs",
   "scripts": {
