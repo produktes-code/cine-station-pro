@@ -27,7 +27,8 @@ jobs:
       - name: Install ffmpeg
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Test with pytest
-        run: pytest --tb=short
+        run: python -m pytest -q
+
 
 
   frontend-lint:
