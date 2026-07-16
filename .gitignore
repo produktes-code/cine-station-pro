@@ -75,3 +75,7 @@ backend/standalone-python-windows/
 backend/bin/ffmpeg.exe
 backend/bin/ffprobe
 backend/bin/ffprobe.exe
+
+# PyInstaller
+backend/build/
+backend/dist/
