@@ -101,7 +101,8 @@ class TestFFmpegCommandConstruction:
 
     def test_create_proxy_480p_command_structure(self):
         """create_proxy 480p debe usar scale=-2:480."""
-        with patch.object(self.processor, '_run_ffmpeg_cmd') as mock_run:
+        with patch.object(self.processor, '_run_ffmpeg_cmd') as mock_run, \
+             patch.object(self.processor, 'get_video_info', return_value={"format": {}, "streams": []}):
             self.processor.create_proxy("/video.mp4", "/proxy.mp4", "480p")
             mock_run.assert_called_once()
             cmd = mock_run.call_args[0][0]
@@ -114,7 +115,8 @@ class TestFFmpegCommandConstruction:
 
     def test_create_proxy_360p_command_structure(self):
         """create_proxy 360p debe usar scale=-2:360."""
-        with patch.object(self.processor, '_run_ffmpeg_cmd') as mock_run:
+        with patch.object(self.processor, '_run_ffmpeg_cmd') as mock_run, \
+             patch.object(self.processor, 'get_video_info', return_value={"format": {}, "streams": []}):
             self.processor.create_proxy("/video.mp4", "/proxy.mp4", "360p")
             mock_run.assert_called_once()
             cmd = mock_run.call_args[0][0]
