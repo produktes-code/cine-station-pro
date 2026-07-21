@@ -27,14 +27,9 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# Configure CORS dynamically based on loaded configurations
-origins = settings.get_allowed_origins()
-allow_all_origins = "*" in origins
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[] if allow_all_origins else origins,
-    allow_origin_regex=".*" if allow_all_origins else None,
+    allow_origins=settings.get_allowed_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

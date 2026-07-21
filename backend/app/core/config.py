@@ -1,11 +1,11 @@
-import os
+import os, secrets
 from typing import List
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field
 
 class Settings(BaseSettings):
-    # Allowed origins for CORS (default is "*", comma-separated for multiple)
-    ALLOWED_ORIGINS: str = Field(default="*")
+    # Allowed origins for CORS
+    ALLOWED_ORIGINS: str = Field(default="http://localhost:5173,http://127.0.0.1:5173")
     
     # 2GB upload limit in bytes (2 * 1024 * 1024 * 1024)
     MAX_UPLOAD_SIZE: int = Field(default=2147483648)
@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     TEMP_DIR: str = Field(default="")
 
     # Core secret key for token signing (used in auth/session modules if needed)
-    SECRET_KEY: str = Field(default="generate_a_random_secure_key_here")
+    SECRET_KEY: str = Field(default_factory=lambda: secrets.token_urlsafe(32))
 
     # Environment mode (development, production)
     ENV: str = Field(default="development")
@@ -28,6 +28,10 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore"
     )
+
+    def model_post_init(self, __context):
+        if self.ENV.lower() == "production" and "SECRET_KEY" not in os.environ:
+            raise ValueError("SECRET_KEY obligatoria en producción (openssl rand -hex 32)")
 
     def get_allowed_origins(self) -> List[str]:
         if not self.ALLOWED_ORIGINS:
