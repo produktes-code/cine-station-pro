@@ -10,14 +10,15 @@ logger = logging.getLogger("cine_station_pro")
 # Strictly allowed video MIME types
 ALLOWED_MIMES = {
     "video/mp4",
-    "video/quicktime",     # .mov
-    "video/x-msvideo",     # .avi
-    "video/x-matroska",    # .mkv
-    "video/webm"
+    "video/quicktime",  # .mov
+    "video/x-msvideo",  # .avi
+    "video/x-matroska",  # .mkv
+    "video/webm",
 }
 
 # Strictly allowed file extensions
 ALLOWED_EXTENSIONS = {".mp4", ".mov", ".avi", ".mkv", ".webm"}
+
 
 def sanitize_filename(filename: str) -> str:
     """
@@ -25,15 +26,16 @@ def sanitize_filename(filename: str) -> str:
     """
     # Extract only the base name (prevents directory traversal attacks like ../../etc)
     base = os.path.basename(filename)
-    
+
     # Strip any characters that are not alphanumeric, dots, hyphens, or underscores
     sanitized = re.sub(r"[^\w\.-]", "_", base)
-    
+
     # Default name if sanitization wipes the name completely
     if not sanitized or sanitized in (".", ".."):
         sanitized = "cinestation_upload_video.mp4"
-        
+
     return sanitized
+
 
 async def validate_uploaded_file(file: UploadFile) -> str:
     """
@@ -48,10 +50,12 @@ async def validate_uploaded_file(file: UploadFile) -> str:
     if content_length:
         size = int(content_length)
         if size > settings.MAX_UPLOAD_SIZE:
-            logger.error(f"Header validation failed: File size ({size} bytes) exceeds limit of {settings.MAX_UPLOAD_SIZE} bytes")
+            logger.error(
+                f"Header validation failed: File size ({size} bytes) exceeds limit of {settings.MAX_UPLOAD_SIZE} bytes"
+            )
             raise HTTPException(
                 status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
-                detail=f"File size exceeds the maximum allowed limit of 2GB."
+                detail="File size exceeds the maximum allowed limit of 2GB.",
             )
 
     # Enforce actual size check in bytes stream (to prevent falsified headers)
@@ -60,15 +64,19 @@ async def validate_uploaded_file(file: UploadFile) -> str:
     file.file.seek(0)  # Reset read pointer
 
     if actual_size > settings.MAX_UPLOAD_SIZE:
-        logger.error(f"Byte check validation failed: Actual file size ({actual_size} bytes) exceeds limit of {settings.MAX_UPLOAD_SIZE} bytes")
+        logger.error(
+            f"Byte check validation failed: Actual file size ({actual_size} bytes) exceeds limit of {settings.MAX_UPLOAD_SIZE} bytes"
+        )
         raise HTTPException(
             status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
-            detail=f"File size exceeds the maximum allowed limit of 2GB."
+            detail="File size exceeds the maximum allowed limit of 2GB.",
         )
 
     # 2. Check header content-type MIME
     header_mime = file.content_type
-    logger.info(f"File upload security check for '{file.filename}'. Header MIME: {header_mime}")
+    logger.info(
+        f"File upload security check for '{file.filename}'. Header MIME: {header_mime}"
+    )
 
     # 3. Magic bytes / content inspection
     # Read the first 2048 bytes to analyze the signature
@@ -77,20 +85,24 @@ async def validate_uploaded_file(file: UploadFile) -> str:
 
     kind = filetype.guess(header_bytes)
     if kind is None:
-        logger.error("Magic bytes validation failed: Unable to identify file signature.")
+        logger.error(
+            "Magic bytes validation failed: Unable to identify file signature."
+        )
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid file format. File signature could not be verified."
+            detail="Invalid file format. File signature could not be verified.",
         )
 
     actual_mime = kind.mime
     logger.info(f"Inspected file content signature. Detected MIME: {actual_mime}")
 
     if actual_mime not in ALLOWED_MIMES:
-        logger.error(f"Magic bytes validation failed: MIME type '{actual_mime}' not in allowed list.")
+        logger.error(
+            f"Magic bytes validation failed: MIME type '{actual_mime}' not in allowed list."
+        )
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="File type is not allowed. Only MP4, MOV, AVI, MKV, and WEBM video formats are supported."
+            detail="File type is not allowed. Only MP4, MOV, AVI, MKV, and WEBM video formats are supported.",
         )
 
     # 4. Check extension to prevent extension spoofing (e.g. picture.jpg.mp4)
@@ -99,7 +111,7 @@ async def validate_uploaded_file(file: UploadFile) -> str:
         logger.error(f"Extension check failed: extension '{ext}' not in allowed list.")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid file extension. Allowed extensions are: .mp4, .mov, .avi, .mkv, .webm"
+            detail="Invalid file extension. Allowed extensions are: .mp4, .mov, .avi, .mkv, .webm",
         )
 
     # Return safe, sanitized filename

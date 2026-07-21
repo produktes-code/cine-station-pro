@@ -12,7 +12,7 @@ from app.api.endpoints import (
     media,
     collab,
     streaming,
-    health
+    health,
 )
 
 api_router = APIRouter()
@@ -30,7 +30,12 @@ api_router.include_router(streaming.router, prefix="/streaming", tags=["Streamin
 api_router.include_router(health.router, prefix="/health", tags=["Diagnostic"])
 
 # Legacy placeholders for compatibility
-api_router.include_router(video.router, prefix="/video", tags=["Video Processing (Legacy)"])
-api_router.include_router(effect.router, prefix="/effect", tags=["Effect Engine (Legacy)"])
-api_router.include_router(render.router, prefix="/render", tags=["Render Manager (Legacy)"])
-
+api_router.include_router(
+    video.router, prefix="/video", tags=["Video Processing (Legacy)"]
+)
+api_router.include_router(
+    effect.router, prefix="/effect", tags=["Effect Engine (Legacy)"]
+)
+api_router.include_router(
+    render.router, prefix="/render", tags=["Render Manager (Legacy)"]
+)

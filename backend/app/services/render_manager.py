@@ -3,6 +3,8 @@ import json
 import uuid
 import logging
 import redis
+import queue
+import threading
 from typing import Dict, Any
 from app.core.config import settings
 from app.core.celery_app import celery_app
@@ -16,17 +18,16 @@ try:
     redis_conn = redis.from_url(redis_url, decode_responses=True)
     redis_conn.ping()
     logger.info("RenderManager connected to Redis successfully.")
-except Exception as e:
-    logger.warning(f"Redis unreachable, falling back to in-memory queue")
+except Exception:
+    logger.warning("Redis unreachable, falling back to in-memory queue")
     redis_conn = None
 
 # Fallback queue and local dictionaries storage in case Redis is not running
-import queue
-import threading
 
 _in_memory_queue = queue.Queue()
 _in_memory_status = {}
 _in_memory_progress = {}
+
 
 def _in_memory_worker():
     while True:
@@ -34,16 +35,18 @@ def _in_memory_worker():
             job_data = _in_memory_queue.get()
             if job_data is None:
                 break
-            
+
             job_id, project_id, timeline_data, export_config = job_data
-            
+
             # Check if job was cancelled while in queue
             if _in_memory_status.get(job_id) == "cancelled":
                 _in_memory_queue.task_done()
                 continue
-                
+
             try:
-                execute_render_task.run(job_id, project_id, timeline_data, export_config)
+                execute_render_task.run(
+                    job_id, project_id, timeline_data, export_config
+                )
             except Exception as e:
                 logger.error(f"Error running in-memory render task {job_id}: {e}")
             finally:
@@ -52,21 +55,21 @@ def _in_memory_worker():
         except Exception as e:
             logger.exception(f"In-memory worker error: {e}")
 
+
 # Start 3 fallback worker threads to handle concurrent rendering tasks
 for _ in range(3):
     t = threading.Thread(target=_in_memory_worker, daemon=True)
     t.start()
 
+
 def _save_jobs():
-    data = {
-        "status": _in_memory_status,
-        "progress": _in_memory_progress
-    }
+    data = {"status": _in_memory_status, "progress": _in_memory_progress}
     try:
         with open(os.path.join(settings.TEMP_DIR, "render_jobs.json"), "w") as f:
             json.dump(data, f)
     except Exception as e:
         logger.error(f"Error saving render jobs: {e}")
+
 
 def _load_jobs():
     filepath = os.path.join(settings.TEMP_DIR, "render_jobs.json")
@@ -79,16 +82,22 @@ def _load_jobs():
         except Exception as e:
             logger.error(f"Error loading render jobs: {e}")
 
+
 _load_jobs()
 
-@celery_app.task(bind=True, time_limit=7200, name="app.services.render_manager.execute_render_task")
-def execute_render_task(self, job_id: str, project_id: str, timeline_data: dict, export_config: dict):
+
+@celery_app.task(
+    bind=True, time_limit=7200, name="app.services.render_manager.execute_render_task"
+)
+def execute_render_task(
+    self, job_id: str, project_id: str, timeline_data: dict, export_config: dict
+):
     """
     Asynchronous Celery task that executes video rendering.
     Time limit enforced at 2 hours (7200 seconds).
     """
     logger.info(f"Render Task started in Celery worker. Job: {job_id}")
-    
+
     # Update job state
     if redis_conn:
         redis_conn.set(f"render_status:{job_id}", "rendering")
@@ -103,12 +112,19 @@ def execute_render_task(self, job_id: str, project_id: str, timeline_data: dict,
         total_steps = 10
         for step in range(1, total_steps + 1):
             # Check if job was cancelled dynamically during execution
-            current_status = redis_conn.get(f"render_status:{job_id}") if redis_conn else _in_memory_status.get(job_id)
+            current_status = (
+                redis_conn.get(f"render_status:{job_id}")
+                if redis_conn
+                else _in_memory_status.get(job_id)
+            )
             if current_status == "cancelled":
-                logger.info(f"Render job {job_id} cancellation detected. Aborting task.")
+                logger.info(
+                    f"Render job {job_id} cancellation detected. Aborting task."
+                )
                 return "cancelled"
 
             import time
+
             time.sleep(1.5)  # Simulate CPU rendering work
 
             progress = int((step / total_steps) * 100)
@@ -117,7 +133,7 @@ def execute_render_task(self, job_id: str, project_id: str, timeline_data: dict,
             else:
                 _in_memory_progress[job_id] = progress
                 _save_jobs()
-            
+
             logger.info(f"Render Job {job_id} progress update: {progress}%")
 
         # Mark job as completed
@@ -161,14 +177,21 @@ class RenderManager:
                 logger.error(f"Error querying active keys from Redis: {e}")
             return count
         else:
-            return sum(1 for status in _in_memory_status.values() if status == "rendering")
+            return sum(
+                1 for status in _in_memory_status.values() if status == "rendering"
+            )
 
-    def create_render_job(self, project_id: str, timeline_data: Dict[str, Any], export_config: Dict[str, Any]) -> str:
+    def create_render_job(
+        self,
+        project_id: str,
+        timeline_data: Dict[str, Any],
+        export_config: Dict[str, Any],
+    ) -> str:
         """
         Creates a new render job and returns the unique job ID.
         """
         job_id = f"render_job_{uuid.uuid4()}"
-        
+
         if redis_conn:
             try:
                 redis_conn.set(f"render_status:{job_id}", "queued")
@@ -185,7 +208,13 @@ class RenderManager:
         logger.info(f"Render job {job_id} registered for project {project_id}")
         return job_id
 
-    def start_render(self, job_id: str, project_id: str, timeline_data: Dict[str, Any], export_config: Dict[str, Any]) -> bool:
+    def start_render(
+        self,
+        job_id: str,
+        project_id: str,
+        timeline_data: Dict[str, Any],
+        export_config: Dict[str, Any],
+    ) -> bool:
         """
         Starts rendering if under the concurrency limit of 3.
         Returns True if successfully started or False if queued due to limit.
@@ -194,15 +223,21 @@ class RenderManager:
         if redis_conn:
             active_renders = self._get_active_renders_count()
             if active_renders >= self.max_concurrent_renders:
-                logger.warning(f"Render job {job_id} cannot start: active renders ({active_renders}) reaches concurrency limit.")
+                logger.warning(
+                    f"Render job {job_id} cannot start: active renders ({active_renders}) reaches concurrency limit."
+                )
                 return False
             try:
-                execute_render_task.delay(job_id, project_id, timeline_data, export_config)
+                execute_render_task.delay(
+                    job_id, project_id, timeline_data, export_config
+                )
                 logger.info(f"Enqueued render job {job_id} onto Celery Redis broker.")
                 return True
             except Exception as e:
-                logger.warning(f"Failed to enqueue task to Celery ({e}). Falling back to in-memory queue.")
-        
+                logger.warning(
+                    f"Failed to enqueue task to Celery ({e}). Falling back to in-memory queue."
+                )
+
         # Redis is unreachable or Celery failed, fall back to in-memory queue
         logger.warning("Redis unreachable, falling back to in-memory queue")
         _in_memory_status[job_id] = "queued"

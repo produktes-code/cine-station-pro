@@ -2,11 +2,14 @@ import os
 import logging
 from logging.handlers import RotatingFileHandler
 
+
 def setup_logging():
     # Determine logs directory in the workspace root
-    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    base_dir = os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    )
     log_dir = os.path.join(base_dir, "logs")
-    
+
     try:
         os.makedirs(log_dir, exist_ok=True)
     except Exception:
@@ -19,13 +22,13 @@ def setup_logging():
     # Required format: timestamp - cine_station_pro - LEVEL - mensaje
     log_format = "%(asctime)s - cine_station_pro - %(levelname)s - %(message)s"
     date_format = "%Y-%m-%d %H:%M:%S"
-    
+
     formatter = logging.Formatter(log_format, datefmt=date_format)
 
     # Configure root logger level
     log_level_name = os.getenv("LOG_LEVEL", "INFO").upper()
     log_level = getattr(logging, log_level_name, logging.INFO)
-    
+
     root_logger = logging.getLogger()
     root_logger.setLevel(log_level)
 
@@ -54,6 +57,7 @@ def setup_logging():
     root_logger.addHandler(stream_handler)
 
     logging.info(f"Logging initialized. Level: {log_level_name}. File: {log_file}")
+
 
 # Set up logging immediately upon import
 setup_logging()

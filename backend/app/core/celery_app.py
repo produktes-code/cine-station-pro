@@ -8,11 +8,7 @@ logger = logging.getLogger("cine_station_pro")
 redis_url = os.getenv("REDIS_URL", "redis://127.0.0.1:6379/0")
 
 # Initialize Celery app
-celery_app = Celery(
-    "cine_station_tasks",
-    broker=redis_url,
-    backend=redis_url
-)
+celery_app = Celery("cine_station_tasks", broker=redis_url, backend=redis_url)
 
 celery_app.conf.update(
     task_serializer="json",

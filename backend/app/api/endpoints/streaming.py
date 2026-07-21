@@ -5,9 +5,12 @@ from app.services.streaming import StreamingManager
 router = APIRouter()
 streaming_manager = StreamingManager()
 
+
 @router.post("/rtmp/start")
 @limiter.limit("10/minute")
-async def start_rtmp_stream(request: Request, session_id: str, video_path: str, rtmp_url: str):
+async def start_rtmp_stream(
+    request: Request, session_id: str, video_path: str, rtmp_url: str
+):
     """
     Starts live RTMP stream pushing the video in real-time.
     """
@@ -15,13 +18,19 @@ async def start_rtmp_stream(request: Request, session_id: str, video_path: str, 
     if not success:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to start RTMP stream for session '{session_id}'"
+            detail=f"Failed to start RTMP stream for session '{session_id}'",
         )
-    return {"status": "success", "message": f"RTMP streaming started for session {session_id}"}
+    return {
+        "status": "success",
+        "message": f"RTMP streaming started for session {session_id}",
+    }
+
 
 @router.post("/hls/start")
 @limiter.limit("10/minute")
-async def start_hls_stream(request: Request, session_id: str, video_path: str, output_dir: str):
+async def start_hls_stream(
+    request: Request, session_id: str, video_path: str, output_dir: str
+):
     """
     Starts HLS segment streaming, creating segments (.ts) and playlist (.m3u8).
     """
@@ -29,9 +38,13 @@ async def start_hls_stream(request: Request, session_id: str, video_path: str, o
     if not success:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to start HLS stream for session '{session_id}'"
+            detail=f"Failed to start HLS stream for session '{session_id}'",
         )
-    return {"status": "success", "message": f"HLS streaming started for session {session_id}"}
+    return {
+        "status": "success",
+        "message": f"HLS streaming started for session {session_id}",
+    }
+
 
 @router.post("/stop/{session_id}")
 @limiter.limit("10/minute")
@@ -43,9 +56,10 @@ async def stop_stream(request: Request, session_id: str):
     if not stopped:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No active stream session found to stop: {session_id}"
+            detail=f"No active stream session found to stop: {session_id}",
         )
     return {"status": "success", "message": f"Stream stopped for session {session_id}"}
+
 
 @router.get("/status/{session_id}")
 @limiter.limit("10/minute")

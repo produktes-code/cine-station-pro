@@ -1,10 +1,11 @@
 import os
 import subprocess
 import logging
-from typing import Dict, Any, List
+from typing import Dict, Any
 from app.core.config import settings
 
 logger = logging.getLogger("cine_station_pro")
+
 
 class StreamingManager:
     def __init__(self):
@@ -13,52 +14,68 @@ class StreamingManager:
         self.active_streams: Dict[str, Dict[str, Any]] = {}
         logger.info("StreamingManager service initialized")
 
-    def start_rtmp_stream(self, session_id: str, video_path: str, rtmp_url: str) -> bool:
+    def start_rtmp_stream(
+        self, session_id: str, video_path: str, rtmp_url: str
+    ) -> bool:
         """
         Starts live RTMP stream pushing the video in real-time.
         -re ensures real-time reading of input frames.
         """
         if session_id in self.active_streams:
-            logger.warning(f"Session '{session_id}' already has an active stream. Stopping it first.")
+            logger.warning(
+                f"Session '{session_id}' already has an active stream. Stopping it first."
+            )
             self.stop_stream(session_id)
 
         # FFmpeg command for RTMP streaming push
         cmd = [
-            settings.FFMPEG_PATH, "-re",
-            "-i", video_path,
-            "-c:v", "libx264",
-            "-preset", "veryfast",
-            "-c:a", "aac",
-            "-b:a", "128k",
-            "-f", "flv",
-            rtmp_url
+            settings.FFMPEG_PATH,
+            "-re",
+            "-i",
+            video_path,
+            "-c:v",
+            "libx264",
+            "-preset",
+            "veryfast",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "128k",
+            "-f",
+            "flv",
+            rtmp_url,
         ]
 
-        logger.info(f"Launching RTMP stream for session '{session_id}' -> URL: {rtmp_url}")
+        logger.info(
+            f"Launching RTMP stream for session '{session_id}' -> URL: {rtmp_url}"
+        )
         try:
             # Run in the background
             process = subprocess.Popen(
-                cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
             )
             self.active_streams[session_id] = {
                 "process": process,
                 "type": "rtmp",
-                "url": rtmp_url
+                "url": rtmp_url,
             }
             return True
         except Exception as e:
-            logger.exception(f"Failed to start RTMP stream for session '{session_id}': {e}")
+            logger.exception(
+                f"Failed to start RTMP stream for session '{session_id}': {e}"
+            )
             return False
 
-    def start_hls_stream(self, session_id: str, video_path: str, output_dir: str) -> bool:
+    def start_hls_stream(
+        self, session_id: str, video_path: str, output_dir: str
+    ) -> bool:
         """
         Starts HLS segment streaming, creating segments (.ts) and playlist (.m3u8).
         """
         if session_id in self.active_streams:
-            logger.warning(f"Session '{session_id}' already has an active stream. Stopping it first.")
+            logger.warning(
+                f"Session '{session_id}' already has an active stream. Stopping it first."
+            )
             self.stop_stream(session_id)
 
         os.makedirs(output_dir, exist_ok=True)
@@ -66,33 +83,42 @@ class StreamingManager:
 
         # FFmpeg command for HLS segmenting
         cmd = [
-            settings.FFMPEG_PATH, "-re",
-            "-i", video_path,
-            "-c:v", "libx264",
-            "-preset", "veryfast",
-            "-c:a", "aac",
-            "-f", "hls",
-            "-hls_time", "4",
-            "-hls_playlist_type", "event",
-            playlist_path
+            settings.FFMPEG_PATH,
+            "-re",
+            "-i",
+            video_path,
+            "-c:v",
+            "libx264",
+            "-preset",
+            "veryfast",
+            "-c:a",
+            "aac",
+            "-f",
+            "hls",
+            "-hls_time",
+            "4",
+            "-hls_playlist_type",
+            "event",
+            playlist_path,
         ]
 
-        logger.info(f"Launching HLS stream segmenter for session '{session_id}' -> Folder: {output_dir}")
+        logger.info(
+            f"Launching HLS stream segmenter for session '{session_id}' -> Folder: {output_dir}"
+        )
         try:
             process = subprocess.Popen(
-                cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
             )
             self.active_streams[session_id] = {
                 "process": process,
                 "type": "hls",
-                "playlist": playlist_path
+                "playlist": playlist_path,
             }
             return True
         except Exception as e:
-            logger.exception(f"Failed to start HLS stream for session '{session_id}': {e}")
+            logger.exception(
+                f"Failed to start HLS stream for session '{session_id}': {e}"
+            )
             return False
 
     def stop_stream(self, session_id: str) -> bool:
@@ -114,9 +140,11 @@ class StreamingManager:
             try:
                 process.wait(timeout=5)
             except subprocess.TimeoutExpired:
-                logger.warning(f"FFmpeg stream process {process.pid} did not exit. Killing it.")
+                logger.warning(
+                    f"FFmpeg stream process {process.pid} did not exit. Killing it."
+                )
                 process.kill()
-            
+
             del self.active_streams[session_id]
             logger.info(f"Stream stopped for session '{session_id}'")
             return True
@@ -146,5 +174,5 @@ class StreamingManager:
             "status": status_str,
             "type": stream_info["type"],
             "pid": process.pid,
-            "exit_code": poll_res
+            "exit_code": poll_res,
         }

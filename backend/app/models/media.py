@@ -1,5 +1,6 @@
-from typing import Optional, List
+from typing import Optional
 from pydantic import BaseModel, Field
+
 
 class MediaInfo(BaseModel):
     media_id: str = Field(..., description="Unique filename/id identifier")
@@ -11,6 +12,7 @@ class MediaInfo(BaseModel):
     width: Optional[int] = Field(None, description="Width of the video stream")
     height: Optional[int] = Field(None, description="Height of the video stream")
     fps: Optional[float] = Field(None, description="Average frames per second")
+
 
 class MediaUploadResponse(BaseModel):
     media_id: str = Field(..., description="Imported unique media ID")
