@@ -57,15 +57,27 @@ In Retail and Enterprise deployment, a system crash is not a bug; it is capital 
 
 ---
 
-## 🚀 Technical Deployment (Installation)
+## 🚀 Technical Deployment & CI/CD Installation
 
-The deployment process responds to an industry imperative: in production, time spent configuring dependencies is time wasted. We packaged a 'Zero-Friction' architecture compiling DSP libraries, Python binaries, and renderers directly into the application's core.
+We employ **Automated CI/CD via GitHub Actions** for cross-platform desktop compilation (Windows, macOS, and Linux).
+
+### 🛠️ Download Installers
+Navigate to the **[Releases](https://github.com/produktes-code/cine-station-pro/releases)** section of this repository to download binaries for your OS:
+- **Windows**: `CineStation.Pro.Setup.1.0.11.exe`
+- **macOS**: `CineStation.Pro-1.0.11.dmg` / `CineStation.Pro-1.0.11-arm64.dmg`
+- **Linux**: `cinestation-app_1.0.11_amd64.deb` / `CineStation.Pro-1.0.11.AppImage`
 
 ### 🍎 macOS Users (Gatekeeper)
 Lacking a paid Apple developer certificate, Gatekeeper will quarantine the binary. As engineers, the legitimate local bypass is to **Right-click the app -> Open** (do not double-click). It is the standard flow of high-performance open-source software.
 
 ### 🪟 Windows Users (SmartScreen)
 Windows Defender may show a blue 'Windows protected your PC' warning when running the `.exe` installer. Click **'More info'** and then **'Run anyway'**.
+
+### 🐧 Linux Users (AppImage & Debian)
+- **AppImage**: Grant execution permissions before launching:
+  `chmod +x CineStation.Pro-1.0.11.AppImage` and run.
+- **Debian Package (`.deb`)**: Install via terminal:
+  `sudo dpkg -i cinestation-app_1.0.11_amd64.deb` or double-click to install via your distro software manager.
 
 ---
 
